@@ -43,7 +43,21 @@ def update_price(countdown=5):
             name = item['name']
             if name == 'THB':
                 name = 'USD - THB'
-            tree.insert("", "end", text=count, values=(name, '{:,.2f}'.format(float(item['bid'])), '{:,.2f}'.format(float(item['ask']))))
+            if name == 'GoldSpot':
+                bid = item['bid']
+                ask = item['ask']
+                if isinstance(bid, float):
+                    bid_str = "{:.2f}".format(bid)
+                else:
+                    bid_str = bid
+                if isinstance(ask, float):
+                    ask_str = "{:.2f}".format(ask)
+                else:
+                    ask_str = ask
+            else:
+                bid_str = item['bid']
+                ask_str = item['ask']
+            tree.insert("", "end", text=count, values=(name, bid_str, ask_str))
             count += 1
 
     root.title(f"Thai Gold Info (Updating in {countdown}s)")
